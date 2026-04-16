@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confluent User Management Flow</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #b71c1c, #e53935);
+      color: white;
+      border-radius: 12px;
+      padding: 28px 36px;
+      margin-bottom: 28px;
+    }
+
+    header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+    header p  { opacity: 0.85; font-size: 0.95rem; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      color: #b71c1c;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ffebee;
+    }
+
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .step-box {
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .step-box.check  { background: #e3f2fd; border-left: 4px solid #1e88e5; }
+    .step-box.delete { background: #ffebee; border-left: 4px solid #e53935; }
+    .step-box.add    { background: #e8f5e9; border-left: 4px solid #43a047; }
+
+    .step-box h3 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .step-box.check h3  { color: #1565c0; }
+    .step-box.delete h3 { color: #b71c1c; }
+    .step-box.add h3    { color: #2e7d32; }
+
+    .step-box ol {
+      padding-left: 18px;
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: #555;
+    }
+
+    .note-box {
+      background: #fff8e1;
+      border-left: 4px solid #ffa000;
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+
+    .note-box h3 {
+      color: #e65100;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .note-box ul {
+      padding-left: 18px;
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: #555;
+    }
+
+    @media (max-width: 720px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Confluent User Management</h1>
+      <p>ขั้นตอนการจัดการผู้ใช้งาน: ตรวจสอบ &bull; ลบ &bull; เพิ่มผู้ใช้งาน</p>
+    </header>
+
+    <!-- Diagram -->
+    <div class="card">
+      <h2>Flowchart ภาพรวม</h2>
+      <div class="mermaid">
+flowchart TD
+    A([Start]) --> B[Login Confluent\nAdmin Console]
+    B --> C[เข้าเมนู\nUser Management]
+    C --> D{ต้องการทำอะไร?}
+
+    D -- ตรวจสอบการใช้งาน --> E[เลือก Users / Accounts]
+    E --> F[ดูรายชื่อผู้ใช้งานทั้งหมด]
+    F --> G[เลือก User ที่ต้องการตรวจสอบ]
+    G --> H[ดู Role, Permission\nและสถานะการใช้งาน]
+    H --> I{พบปัญหา\nหรือต้องดำเนินการ?}
+    I -- ไม่มี --> Z1([End - ไม่มีการเปลี่ยนแปลง])
+    I -- ต้องลบ --> D2
+    I -- ต้องแก้ไข Role --> J[แก้ไข Role / Permission]
+    J --> K[บันทึกการเปลี่ยนแปลง]
+    K --> Z2([End - อัปเดตสำเร็จ])
+
+    D -- ลบผู้ใช้งาน --> D2[ค้นหา User ที่ต้องการลบ]
+    D2 --> D3{ยืนยัน User\nถูกต้อง?}
+    D3 -- ไม่ --> D2
+    D3 -- ใช่ --> D4{User มี\nActive Resources?}
+    D4 -- ใช่ --> D5[โอนย้าย / ปิด Resources\nก่อนลบ]
+    D5 --> D6[ยืนยันการลบ User]
+    D4 -- ไม่ --> D6
+    D6 --> D7[กด Delete / Remove User]
+    D7 --> D8{ลบสำเร็จ?}
+    D8 -- ไม่ --> D9[ตรวจสอบ Error\nและแก้ไข]
+    D9 --> D6
+    D8 -- ใช่ --> D10[บันทึก Log\nการลบผู้ใช้งาน]
+    D10 --> Z3([End - ลบสำเร็จ])
+
+    D -- เพิ่มผู้ใช้งาน --> A2[กรอกข้อมูล User ใหม่\nEmail / Username]
+    A2 --> A3[กำหนด Role\nและ Permission]
+    A3 --> A4{Role\nเหมาะสม?}
+    A4 -- ไม่ --> A3
+    A4 -- ใช่ --> A5[ส่ง Invitation\nหรือ Create Account]
+    A5 --> A6{ส่งสำเร็จ?}
+    A6 -- ไม่ --> A7[ตรวจสอบ Email\nและลองใหม่]
+    A7 --> A5
+    A6 -- ใช่ --> A8[แจ้ง User\nข้อมูล Login]
+    A8 --> A9[บันทึก Log\nการเพิ่มผู้ใช้งาน]
+    A9 --> Z4([End - เพิ่มสำเร็จ])
+
+    style A   fill:#4CAF50,color:#fff
+    style Z1  fill:#9E9E9E,color:#fff
+    style Z2  fill:#2196F3,color:#fff
+    style Z3  fill:#F44336,color:#fff
+    style Z4  fill:#4CAF50,color:#fff
+      </div>
+    </div>
+
+    <!-- Step-by-step -->
+    <div class="card">
+      <h2>ขั้นตอนสรุปแต่ละกระบวนการ</h2>
+      <div class="steps-grid">
+
+        <div class="step-box check">
+          <h3>1. ตรวจสอบการใช้งาน (Check)</h3>
+          <ol>
+            <li>Login Confluent Admin Console</li>
+            <li>ไปที่ User Management</li>
+            <li>ค้นหาและเลือก User</li>
+            <li>ตรวจสอบ Role, Permission และสถานะ</li>
+            <li>แก้ไขหากจำเป็น แล้วบันทึก</li>
+          </ol>
+        </div>
+
+        <div class="step-box delete">
+          <h3>2. ลบผู้ใช้งาน (Delete)</h3>
+          <ol>
+            <li>ค้นหา User ที่ต้องการลบ</li>
+            <li>ตรวจสอบว่ามี Active Resources หรือไม่</li>
+            <li>โอนย้าย / ปิด Resources (ถ้ามี)</li>
+            <li>ยืนยันและกด Delete</li>
+            <li>บันทึก Log การลบ</li>
+          </ol>
+        </div>
+
+        <div class="step-box add">
+          <h3>3. เพิ่มผู้ใช้งาน (Add)</h3>
+          <ol>
+            <li>กรอกข้อมูล User (Email/Username)</li>
+            <li>กำหนด Role และ Permission</li>
+            <li>ส่ง Invitation หรือสร้าง Account</li>
+            <li>แจ้ง Login credentials ให้ User</li>
+            <li>บันทึก Log การเพิ่มผู้ใช้งาน</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card">
+      <h2>หมายเหตุสำคัญ</h2>
+      <div class="note-box">
+        <h3>ข้อควรระวัง</h3>
+        <ul>
+          <li>ควร log ทุกการเปลี่ยนแปลงสิทธิ์เพื่อ audit trail</li>
+          <li>การลบ User ควรได้รับการอนุมัติจาก Admin ก่อนเสมอ</li>
+          <li>ตรวจสอบ Active Resources ก่อนลบเพื่อป้องกันข้อมูลสูญหาย</li>
+          <li>กำหนด Role ตาม Least Privilege Principle เสมอ</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis' } });
+  </script>
+</body>
+</html>

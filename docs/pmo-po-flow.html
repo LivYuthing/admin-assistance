@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PMO & PO Workflow</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: white;
+      border-radius: 12px;
+      padding: 28px 36px;
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      opacity: 0.85;
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      color: #1a237e;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e8eaf6;
+    }
+
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .roles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .role-box {
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .role-box.pmo {
+      background: #e8eaf6;
+      border-left: 4px solid #3949ab;
+    }
+
+    .role-box.po {
+      background: #e8f5e9;
+      border-left: 4px solid #43a047;
+    }
+
+    .role-box h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .role-box.pmo h3 { color: #1a237e; }
+    .role-box.po h3  { color: #2e7d32; }
+
+    .role-box ul {
+      padding-left: 18px;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead tr {
+      background: #e8eaf6;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th { color: #1a237e; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+
+    @media (max-width: 600px) {
+      .roles { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>PMO &amp; PO Workflow</h1>
+      <p>กระบวนการทำงานร่วมกันระหว่าง PMO และ PO (Product Owner)</p>
+    </header>
+
+    <!-- Diagram -->
+    <div class="card">
+      <h2>ภาพรวมกระบวนการ</h2>
+      <div class="mermaid">
+flowchart TD
+    A([Start]) --> B[PO รับ Business Requirement]
+    B --> C[PO เขียน User Stories\nและ Acceptance Criteria]
+    C --> D{PMO Review\nProject Scope?}
+
+    D -- ไม่ผ่าน --> E[PO แก้ไข Requirement]
+    E --> C
+
+    D -- ผ่าน --> F[PMO จัดทำ Project Charter]
+    F --> G[PMO กำหนด Timeline\nและ Resource Plan]
+    G --> H{Sponsor อนุมัติ?}
+
+    H -- ไม่อนุมัติ --> I[ทบทวนและปรับแผน]
+    I --> F
+
+    H -- อนุมัติ --> J[PO จัดทำ Product Backlog\nและ Sprint Plan]
+    J --> K[เริ่ม Sprint / Execution]
+
+    K --> L[Daily Standup\nPO + Dev Team]
+    L --> M[PMO ติดตาม Progress\nและ Status Report]
+
+    M --> N{มี Issue\nหรือ Risk?}
+
+    N -- ใช่ --> O[PMO บันทึก Issue/Risk Register]
+    O --> P{ระดับความเสี่ยง\nสูง?}
+    P -- ใช่ --> Q[Escalate ถึง Sponsor]
+    Q --> R[ประชุม Steering Committee]
+    R --> K
+    P -- ไม่ --> K
+
+    N -- ไม่ --> S{Sprint\nเสร็จสิ้น?}
+
+    S -- ไม่ --> L
+    S -- ใช่ --> T[Sprint Review\nPO Demo ให้ Stakeholders]
+
+    T --> U[Sprint Retrospective]
+    U --> V{โครงการ\nเสร็จสิ้น?}
+
+    V -- ไม่ --> J
+    V -- ใช่ --> W[PMO จัดทำ Project Closure Report]
+    W --> X[Lessons Learned Session]
+    X --> Y([End])
+      </div>
+    </div>
+
+    <!-- Roles -->
+    <div class="card">
+      <h2>รายละเอียดบทบาท</h2>
+      <div class="roles">
+        <div class="role-box pmo">
+          <h3>PMO มีหน้าที่</h3>
+          <ul>
+            <li>จัดทำและดูแล Project Charter, Timeline, Budget</li>
+            <li>ติดตาม Progress และจัดทำ Status Report</li>
+            <li>บริหาร Risk และ Issue</li>
+            <li>รายงานต่อ Steering Committee / Sponsor</li>
+          </ul>
+        </div>
+        <div class="role-box po">
+          <h3>PO มีหน้าที่</h3>
+          <ul>
+            <li>รับและวิเคราะห์ Business Requirement</li>
+            <li>เขียนและจัดลำดับ Product Backlog</li>
+            <li>กำหนด Acceptance Criteria</li>
+            <li>Demo ผลลัพธ์ให้ Stakeholders</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision Gates -->
+    <div class="card">
+      <h2>จุดตัดสินใจหลัก (Decision Gates)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>จุด</th>
+            <th>ผู้ตัดสินใจ</th>
+            <th>เกณฑ์</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PMO Review Scope</td>
+            <td>PMO Lead</td>
+            <td>ขอบเขตชัดเจน, วัดผลได้</td>
+          </tr>
+          <tr>
+            <td>Sponsor Approval</td>
+            <td>Sponsor</td>
+            <td>Budget และ Timeline อนุมัติ</td>
+          </tr>
+          <tr>
+            <td>Risk Escalation</td>
+            <td>PMO + Sponsor</td>
+            <td>Risk Level = สูง หรือ สูงมาก</td>
+          </tr>
+          <tr>
+            <td>Project Closure</td>
+            <td>Sponsor + PMO</td>
+            <td>Deliverables ส่งมอบครบ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis' } });
+  </script>
+</body>
+</html>
