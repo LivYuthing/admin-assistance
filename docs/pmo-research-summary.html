@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PMO ที่ดี — สรุปสาระสำคัญ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap');
+
+    :root {
+      --primary:   #1a237e;
+      --accent:    #3949ab;
+      --light-bg:  #f5f6fa;
+      --card-bg:   #ffffff;
+      --border:    #e8eaf6;
+      --text:      #2c3e50;
+      --muted:     #7f8c8d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── HERO ─────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #0d1b6e 0%, #3949ab 60%, #5c6bc0 100%);
+      color: #fff;
+      padding: 60px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ─── LAYOUT ────────────────────────────────────── */
+    .container {
+      max-width: 1080px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* ─── STAT ROW ──────────────────────────────────── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ─── SECTION TITLE ─────────────────────────────── */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    /* ─── DUTY GRID ─────────────────────────────────── */
+    .duty-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+
+    .duty-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      padding: 24px;
+      border-top: 4px solid transparent;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .duty-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .duty-card.c1 { border-color: #3949ab; }
+    .duty-card.c2 { border-color: #00897b; }
+    .duty-card.c3 { border-color: #f4511e; }
+    .duty-card.c4 { border-color: #8e24aa; }
+    .duty-card.c5 { border-color: #e53935; }
+    .duty-card.c6 { border-color: #fb8c00; }
+
+    .duty-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .duty-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .duty-card ul {
+      padding-left: 16px;
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: #555;
+    }
+
+    /* ─── TREND ROW ─────────────────────────────────── */
+    .trend-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .trend-card {
+      background: linear-gradient(135deg, var(--card-bg), #eef0fb);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .trend-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .trend-card h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .trend-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── HIGHLIGHT BOX ─────────────────────────────── */
+    .highlight {
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      font-size: 10rem;
+      opacity: 0.08;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .highlight p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      font-weight: 300;
+      position: relative;
+    }
+
+    .highlight strong {
+      font-weight: 700;
+    }
+
+    /* ─── SOURCE ─────────────────────────────────────── */
+    .source-row {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 18px 22px;
+    }
+
+    .source-row p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .source-row a {
+      display: inline-block;
+      margin-right: 12px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--accent);
+    }
+
+    .source-row a:hover { opacity: 0.75; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 640px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .highlight { padding: 24px 20px; }
+      .highlight p { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Research Summary 2026</div>
+    <h1>PMO ที่ดี มีหน้าที่อะไรบ้าง?</h1>
+    <p>สรุปสาระสำคัญจากการวิจัยบทบาทและความรับผิดชอบของ<br>Project Management Office ในยุคปัจจุบัน</p>
+  </div>
+
+  <div class="container">
+
+    <!-- STATS -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="number">6</div>
+        <div class="label">หน้าที่หลักของ PMO</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">4</div>
+        <div class="label">แนวโน้มสำคัญปี 2026</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">∞</div>
+        <div class="label">คุณค่าเชิงกลยุทธ์ที่ส่งมอบ</div>
+      </div>
+    </div>
+
+    <!-- DUTIES -->
+    <div class="section-title">หน้าที่หลัก 6 ด้านของ PMO ที่ดี</div>
+    <div class="duty-grid">
+
+      <div class="duty-card c1">
+        <div class="duty-icon">📋</div>
+        <h3>กำหนดมาตรฐานและกระบวนการ</h3>
+        <ul>
+          <li>วาง Methodology การบริหารโครงการ</li>
+          <li>สร้าง Template และแบบฟอร์มมาตรฐาน</li>
+          <li>พัฒนา Best Practices ให้เหมาะกับองค์กร</li>
+        </ul>
+      </div>
+
+      <div class="duty-card c2">
+        <div class="duty-icon">🏛️</div>
+        <h3>กำกับดูแล (Governance)</h3>
+        <ul>
+          <li>ตรวจสอบให้โครงการเป็นไปตามมาตรฐาน</li>
+          <li>Audit โครงการและรายงานผู้บริหาร</li>
+          <li>ดูแล Policy และ Compliance</li>
+        </ul>
+      </div>
+
+      <div class="duty-card c3">
+        <div class="duty-icon">🗂️</div>
+        <h3>บริหาร Portfolio &amp; Resources</h3>
+        <ul>
+          <li>จัดลำดับความสำคัญของโครงการ</li>
+          <li>บริหารทรัพยากรร่วมกันข้ามโครงการ</li>
+          <li>เชื่อมโยงโครงการกับกลยุทธ์องค์กร</li>
+        </ul>
+      </div>
+
+      <div class="duty-card c4">
+        <div class="duty-icon">📊</div>
+        <h3>ติดตามและรายงาน</h3>
+        <ul>
+          <li>ติดตาม Progress และ KPI ทุกโครงการ</li>
+          <li>จัดทำ Status Report ต่อ Executive</li>
+          <li>ใช้ Data Analytics ชี้โครงการที่มีความเสี่ยง</li>
+        </ul>
+      </div>
+
+      <div class="duty-card c5">
+        <div class="duty-icon">⚠️</div>
+        <h3>บริหารความเสี่ยงและปัญหา</h3>
+        <ul>
+          <li>ดูแล Risk Register และ Issue Log</li>
+          <li>Escalate ความเสี่ยงระดับสูงต่อผู้บริหาร</li>
+          <li>ประสานงานแก้ไขปัญหาข้ามทีม</li>
+        </ul>
+      </div>
+
+      <div class="duty-card c6">
+        <div class="duty-icon">🎓</div>
+        <h3>พัฒนาศักยภาพทีม</h3>
+        <ul>
+          <li>ให้คำปรึกษาและ Coaching แก่ PM</li>
+          <li>จัดฝึกอบรมด้านการบริหารโครงการ</li>
+          <li>สะสมและแบ่งปัน Lessons Learned</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- TRENDS -->
+    <div class="section-title">แนวโน้ม PMO ปี 2026</div>
+    <div class="trend-row">
+      <div class="trend-card">
+        <div class="trend-icon">🤖</div>
+        <div>
+          <h4>AI-Powered PMO</h4>
+          <p>ใช้ AI วิเคราะห์ Portfolio และคาดการณ์ความเสี่ยงโครงการล่วงหน้า</p>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-icon">🔀</div>
+        <div>
+          <h4>Hybrid Approach</h4>
+          <p>ผสาน Agile (Scrum/Kanban/SAFe) กับ Waterfall ให้เหมาะกับแต่ละโครงการ</p>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-icon">💰</div>
+        <div>
+          <h4>Business Value Focus</h4>
+          <p>วัดผลจากคุณค่าทางธุรกิจที่ส่งมอบจริง ไม่ใช่แค่ Timeline และ Budget</p>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="trend-icon">🚀</div>
+        <div>
+          <h4>Strategic Partner</h4>
+          <p>PMO เป็นหุ้นส่วนเชิงกลยุทธ์ขององค์กร ไม่ใช่แค่ฝ่าย Admin</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIGHLIGHT -->
+    <div class="highlight">
+      <p>
+        PMO ที่ดีไม่ใช่แค่ <strong>"หน่วยงานทำเอกสาร"</strong> แต่คือ
+        <strong>หน่วยงานเชิงกลยุทธ์</strong> ที่ช่วยให้ทุกโครงการขององค์กร
+        ประสบความสำเร็จ ส่งมอบคุณค่าทางธุรกิจได้จริง และเชื่อมโยง
+        การทำงานของทุกทีมเข้ากับเป้าหมายองค์กรในระยะยาว
+      </p>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="source-row">
+      <p>แหล่งข้อมูล</p>
+      <a href="https://www.knowledgertraining.com/A_8-%E0%B8%9A%E0%B8%97%E0%B8%9A%E0%B8%B2%E0%B8%97%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%99%E0%B9%88%E0%B8%A7%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99-PMO-%E0%B8%A3%E0%B8%B0%E0%B8%94%E0%B8%B1%E0%B8%9A%E0%B9%80%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B8%95%E0%B9%89%E0%B8%99_%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88" target="_blank">Knowledger Training</a>
+      <a href="https://bluebik.com/th/blog/what-is-project-management-office/" target="_blank">Bluebik — PMO คืออะไร</a>
+      <a href="https://www.coursera.org/articles/pmo" target="_blank">Coursera — What is PMO 2026</a>
+      <a href="https://www.saviom.com/blog/pmo-roles-responsibilities-organization/" target="_blank">Saviom — PMO Roles</a>
+      <a href="https://blog.masterofproject.com/project-management-office-pmo/" target="_blank">Master of Project — PMO Guide</a>
+    </div>
+
+  </div>
+</body>
+</html>
