@@ -10,7 +10,9 @@ admin-assistance/
 ├── templates/
 │   ├── project-charter.md
 │   ├── status-report.md
-│   └── risk-register.md
+│   ├── risk-register.md
+│   ├── budget-memo-template.xlsx
+│   └── budget-memo-guide.md
 ├── projects/
 │   └── (โฟลเดอร์สำหรับแต่ละโครงการ)
 └── docs/
